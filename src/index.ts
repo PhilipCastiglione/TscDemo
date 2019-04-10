@@ -2,6 +2,7 @@ import "reflect-metadata";
 import {createConnection, Connection} from "typeorm";
 import {User} from "./entity/User";
 import {Flange} from "./entity/Flange";
+import * as _ from "lodash";
 
 async function createUser(connection: Connection) {
     console.log("Inserting a new user into the database...");
@@ -36,6 +37,10 @@ async function createFlanges(connection: Connection) {
     // await connection.manager.save(flange3);
 }
 
+function lodashThings(): string {
+    return _.join(['a', 'b', 'c'], ',');
+}
+
 createConnection().then(async connection => {
 
     // await createUser(connection);
@@ -56,6 +61,8 @@ createConnection().then(async connection => {
         .leftJoinAndSelect("flange.user", "user")
         .getMany();
     console.log("Loaded flanges: ", flanges);
+
+    console.log("Pointlessly using lodash, but typed!", lodashThings());
 
     console.log("Here you can setup and run express/koa/any other framework.");
 
